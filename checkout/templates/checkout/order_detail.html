@@ -1,26 +1,8 @@
-{% load static %}
+{% extends "checkout/base_checkout.html" %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Order #{{ order.id }}</title>
-    <link rel="stylesheet" href="{% static 'cart/cart.css' %}">
-    <link rel="stylesheet" href="{% static 'checkout/checkout.css' %}">
-</head>
-<body>
+{% block title %}Order #{{ order.id }}{% endblock %}
 
-<header class="nav site-header">
-    <a class="logo" href="/">CLEANLOOK.PH 💗</a>
-    <nav class="nav-links">
-        <a href="/">Home</a>
-        <a href="/store/">Store</a>
-        <a href="/cart/">Cart</a>
-        <a href="{% url 'orders' %}">Orders</a>
-        <a href="/profile/">Profile</a>
-        <a href="/logout/">Logout</a>
-    </nav>
-</header>
-
+{% block content %}
 <section class="cart-header">
     <h1>Order #{{ order.id }}</h1>
     <p>Full order details, item breakdown, and shipping summary.</p>
@@ -81,11 +63,9 @@
             </div>
 
             <div class="detail-actions">
-                <button class="checkout-btn" onclick="window.location.href='/orders/'">Back to Order List</a>
+                <a class="checkout-btn" href="{% url 'orders' %}">Back to Order List</a>
             </div>
         </div>
     </main>
 </section>
-
-</body>
-</html>
+{% endblock %}

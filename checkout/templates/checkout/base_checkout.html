@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Checkout{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'cart/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'checkout/checkout.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<header class="nav site-header">
+    <a class="logo" href="/">CLEANLOOK.PH 💗</a>
+    <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/store/">Store</a>
+        <a href="/cart/">Cart</a>
+        <a href="{% url 'orders' %}">Orders</a>
+        <a href="/profile/">Profile</a>
+        <a href="/logout/">Logout</a>
+    </nav>
+</header>
+
+{% block content %}{% endblock %}
+
+</body>
+</html>

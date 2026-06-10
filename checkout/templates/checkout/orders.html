@@ -1,25 +1,8 @@
-{% load static %}
+{% extends "checkout/base_checkout.html" %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Orders</title>
-    <link rel="stylesheet" href="{% static 'cart/cart.css' %}">
-    <link rel="stylesheet" href="{% static 'checkout/checkout.css' %}">
-</head>
-<body>
+{% block title %}My Orders{% endblock %}
 
-<header class="nav site-header">
-    <a class="logo" href="/">CLEANLOOK.PH 💗</a>
-    <nav class="nav-links">
-        <a href="/">Home</a>
-        <a href="/store/">Store</a>
-        <a href="/cart/">Cart</a>
-        <a href="/profile/">Profile</a>
-        <a href="/logout/">Logout</a>
-    </nav>
-</header>
-
+{% block content %}
 <section class="cart-header">
     <h1>Your Orders</h1>
     <p>Browse your order history and view the full details for any order.</p>
@@ -55,6 +38,4 @@
         {% endif %}
     </div>
 </section>
-
-</body>
-</html>
+{% endblock %}
