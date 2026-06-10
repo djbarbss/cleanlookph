@@ -1,0 +1,228 @@
+/* =========================
+   BASE
+========================= */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ffe4ec, #ffd6e8);
+    color: #4a2b3a;
+
+    animation: pageFade 0.6s ease-out;
+}
+
+/* page fade */
+@keyframes pageFade {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* floating glow */
+body::before {
+    content: "";
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255,79,154,0.25), transparent 70%);
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: floatGlow 7s ease-in-out infinite;
+    z-index: 0;
+}
+
+@keyframes floatGlow {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-25px); }
+}
+
+/* =========================
+   NAV
+========================= */
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 60px;
+    position: relative;
+    z-index: 2;
+}
+
+.logo {
+    text-decoration: none;
+    font-weight: bold;
+    color: #b34b6f;
+    letter-spacing: 2px;
+}
+
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: #6b3a4a;
+    text-decoration: none;
+    font-size: 14px;
+    opacity: 0.8;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+
+.nav-links a:hover {
+    opacity: 1;
+    color: #ff4f9a;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.store-hero {
+    text-align: center;
+    padding: 60px 20px;
+    position: relative;
+    z-index: 2;
+    animation: heroUp 0.8s ease-out;
+}
+
+@keyframes heroUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.store-hero h1 {
+    font-size: 60px;
+    color: #ff4f9a;
+    margin: 0;
+}
+
+.store-hero p {
+    opacity: 0.8;
+}
+
+/* =========================
+   PRODUCTS GRID
+========================= */
+
+.product-section {
+    padding: 40px;
+    position: relative;
+    z-index: 2;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+/* =========================
+   PRODUCT CARD (SKYLRK STYLE)
+========================= */
+
+.product-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid rgba(255, 79, 154, 0.2);
+    transition: all 0.3s ease;
+
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cardIn 0.7s ease forwards;
+}
+
+/* stagger animation */
+.product-card:nth-child(1) { animation-delay: 0.1s; }
+.product-card:nth-child(2) { animation-delay: 0.2s; }
+.product-card:nth-child(3) { animation-delay: 0.3s; }
+.product-card:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes cardIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.product-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(255, 79, 154, 0.25);
+    border-color: #ff4f9a;
+}
+
+/* IMAGE PLACEHOLDER */
+.img {
+    height: 140px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ffd6e8, #ffb6d5);
+    margin-bottom: 10px;
+}
+
+/* TEXT */
+.product-card h3 {
+    margin: 5px 0;
+}
+
+.product-card p {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.product-card span {
+    display: block;
+    margin: 10px 0;
+    font-weight: bold;
+    color: #ff4f9a;
+}
+
+/* BUTTON */
+.product-card button {
+    background: #ff4f9a;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.product-card button:hover {
+    background: #ff2f86;
+    transform: translateY(-3px);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    text-align: center;
+    padding: 40px;
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+.product-grid a {
+    text-decoration: none !important;
+    color: inherit !important;
+    display: block;
+}

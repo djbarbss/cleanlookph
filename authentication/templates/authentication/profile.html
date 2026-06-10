@@ -1,0 +1,99 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Profile</title>
+    <link rel="stylesheet" href="{% static 'authentication/profile.css' %}">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="nav">
+
+    <a class="logo" href="/">
+        CLEANLOOK.PH 💗
+    </a>
+
+    <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/store/">Store</a>
+        <a href="/cart/">Cart</a>
+        <a href="/logout/">Logout</a>
+    </nav>
+
+</header>
+
+<!-- HERO -->
+<section class="profile-hero">
+
+    <div class="hero-content">
+
+        <div class="avatar">
+            💗
+        </div>
+
+        <h1>{{ request.user.username }}</h1>
+
+        <p>{{ request.user.email }}</p>
+
+    </div>
+
+</section>
+
+<!-- PROFILE CONTENT -->
+<section class="profile-section">
+
+    <div class="profile-grid">
+
+        <div class="info-card">
+            <span>First Name</span>
+            <h3>{{ request.user.first_name }}</h3>
+        </div>
+
+        <div class="info-card">
+            <span>Last Name</span>
+            <h3>{{ request.user.last_name }}</h3>
+        </div>
+
+        <div class="info-card">
+            <span>Email</span>
+            <h3>{{ request.user.email }}</h3>
+        </div>
+
+        <div class="info-card">
+            <span>Phone Number</span>
+            <h3>{{ request.user.phone }}</h3>
+        </div>
+
+        <div class="info-card">
+            <span>Birthday</span>
+            <h3>{{ request.user.birthday }}</h3>
+        </div>
+
+        <div class="info-card">
+            <span>Date Joined</span>
+            <h3>{{ request.user.date_joined }}</h3>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    background: #ffe4ec;
+    text-align: center;
+    padding: 10px 0;
+">
+    <p>© 2026 CLEANLOOK.PH Inspired UI</p>
+</footer>
+
+</body>
+</html>

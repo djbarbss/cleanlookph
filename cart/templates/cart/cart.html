@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+    <link rel="stylesheet" href="{% static 'cart/cart.css' %}">
+</head>
+<script src="{% static 'js/cart.js' %}"></script>
+<body>
+
+<!-- NAVBAR -->
+<header class="nav" style="position: fixed; z-index: 9999; background-color: #ffe4ec;">
+    <a class="logo" href="/">CLEANLOOK.PH 💗</a>
+
+    <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/store/">Store</a>
+        <a href="/profile/">Profile</a>
+        <a href="/logout/">Logout</a>
+    </nav>
+</header>
+
+<!-- PAGE TITLE -->
+<section class="cart-header">
+    <h1>Your Cart</h1>
+    <p>Minimal essentials curated for you.</p>
+</section>
+
+<!-- CART LAYOUT -->
+<section class="cart-layout">
+
+    <!-- LEFT SIDE -->
+    <div class="cart-items" id="cart-items">
+
+        <!-- ITEM -->
+        <div class="cart-card">
+
+            <div class="product-image"></div>
+
+            <div class="product-info">
+                <h3>Reverse Hoodie</h3>
+                <p>Inside-out construction</p>
+
+                <div class="quantity">
+                    <button>-</button>
+                    <span>1</span>
+                    <button>+</button>
+                </div>
+            </div>
+
+            <div class="product-price">
+                ₱1,299
+            </div>
+
+        </div>
+
+        <!-- ITEM -->
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="summary-card">
+
+        <h2>Summary</h2>
+
+        <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="subtotal">₱2,897</span>
+        </div>
+
+        <div class="summary-row">
+            <span>Shipping</span>
+            <span id="shipping">₱120</span>
+        </div>
+
+        <div class="summary-row total">
+            <span>Total</span>
+            <span id="total">₱3,017</span>
+        </div>
+
+        <button class="checkout-btn">
+            Proceed to Checkout
+        </button>
+
+    </div>
+
+</section>
+
+<footer style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    background: #ffe4ec;
+    text-align: center;
+    padding: 10px 0;
+">
+    <p>© 2026 CLEANLOOK.PH Inspired UI</p>
+</footer>
+</body>
+</html>

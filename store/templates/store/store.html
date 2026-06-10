@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Store</title>
+    <link rel="stylesheet" href="{% static 'store/store.css' %}">
+</head>
+<script src="{% static 'js/store.js' %}"></script>
+<body>
+
+<!-- NAVBAR -->
+<header class="nav">
+    <a class="logo" href="/">CLEANLOOK.PH 💗</a>
+
+    <nav class="nav-links">
+        <a href="/">Home</a>
+        {% if request.user.is_authenticated %}
+
+            <a href="/cart/">Cart</a>
+            <a class="user" href="/profile/">
+                Profile
+            </a>
+            <a href="/logout/">Logout</a>
+
+        {% else %}
+            <a href="/login/">Login</a>
+            <a href="/register/">Register</a>
+        {% endif %}
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="store-hero">
+    <h1>New Drops</h1>
+    <p>Minimal essentials, refined aesthetic pieces.</p>
+</section>
+
+<!-- PRODUCTS -->
+<section class="product-section">
+
+    <a class="product-grid" id="product-grid">
+    </a>
+
+</section>
+
+<!-- FOOTER -->
+<footer style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    background: #ffe4ec;
+    text-align: center;
+    padding: 10px 0;
+">
+    <p>© 2026 CLEANLOOK.PH Inspired UI</p>
+</footer>
+
+</body>
+</html>

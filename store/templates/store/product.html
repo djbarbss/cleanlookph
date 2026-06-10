@@ -1,0 +1,181 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product</title>
+    <link rel="stylesheet" href="{% static 'store/product.css' %}">
+</head>
+<script>
+    window.PRODUCT_ID = "{{ product_id }}";
+</script>
+<script src="{% static 'js/product.js' %}"></script>
+<body>
+
+<!-- NAVBAR -->
+<header class="nav" style="position: fixed; z-index: 9999; background-color: #ffe4ec;">
+
+    <a class="logo" href="/">
+        CLEANLOOK.PH 💗
+    </a>
+
+    <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/store/">Store</a>
+        <a href="/cart/">Cart</a>
+        <a href="/profile/">Profile</a>
+    </nav>
+
+</header>
+
+<!-- PRODUCT SECTION -->
+<section class="product-layout">
+
+    <!-- LEFT -->
+    <div class="product-gallery">
+
+        <img id="product-image" class="main-image" />
+
+        <div class="thumbnail-row">
+            <div class="thumb"></div>
+            <div class="thumb"></div>
+            <div class="thumb"></div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="product-details">
+
+        <span class="product-tag">
+            NEW DROP
+        </span>
+
+        <h1 id="product-name">Reverse Hoodie</h1>
+
+        <p class="subtitle" id="product-description">
+            Minimal heavyweight essential with inside-out construction.
+        </p>
+
+        <div class="price" id="product-price">
+            ₱1,299
+        </div>
+
+        <!-- SIZE -->
+        <div class="section">
+
+            <span class="label">Select Size</span>
+
+            <div class="sizes">
+                <button>S</button>
+                <button>M</button>
+                <button>L</button>
+                <button>XL</button>
+            </div>
+
+        </div>
+
+        <!-- QUANTITY -->
+        <div class="section">
+
+            <span class="label">Quantity</span>
+
+            <div class="quantity">
+
+                <button>-</button>
+
+                <span>1</span>
+
+                <button>+</button>
+
+            </div>
+
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="actions">
+
+            <button class="cart-btn">
+                Add to Cart
+            </button>
+
+            <button class="buy-btn">
+                Buy Now
+            </button>
+
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="description">
+
+            <h3>Description</h3>
+
+            <p>
+                Crafted with premium heavyweight cotton and a relaxed oversized silhouette.
+                Designed for minimal styling and everyday wear.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- RELATED -->
+<!-- RELATED -->
+<section class="related-section">
+
+    <h2>You May Also Like</h2>
+
+    <div class="product-grid">
+
+        <a href="/product/" class="product-link">
+            <div class="product-card">
+                <div class="img"></div>
+                <h3>Oversized Tee</h3>
+                <p>Heavyweight cotton</p>
+                <span>₱799</span>
+                <button>Add to Cart</button>
+            </div>
+        </a>
+
+        <a href="/product/" class="product-link">
+            <div class="product-card">
+                <div class="img"></div>
+                <h3>Relaxed Sweatpants</h3>
+                <p>Minimal silhouette</p>
+                <span>₱999</span>
+                <button>Add to Cart</button>
+            </div>
+        </a>
+
+        <a href="/product/" class="product-link">
+            <div class="product-card">
+                <div class="img"></div>
+                <h3>Clean Cap</h3>
+                <p>Soft curved brim</p>
+                <span>₱499</span>
+                <button>Add to Cart</button>
+            </div>
+        </a>
+
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    background: #ffe4ec;
+    text-align: center;
+    padding: 10px 0;
+">
+    <p>© 2026 CLEANLOOK.PH Inspired UI</p>
+</footer>
+
+</body>
+</html>

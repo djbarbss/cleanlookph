@@ -1,0 +1,262 @@
+/* =========================
+   BASE
+========================= */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ffe4ec, #ffd6e8);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #4a2b3a;
+
+    animation: pageFade 0.6s ease-out;
+}
+
+/* PAGE FADE IN */
+@keyframes pageFade {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* =========================
+   PAGE LOAD REVEAL OVERLAY
+========================= */
+
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ffe4ec, #ffd6e8);
+    z-index: 9999;
+    animation: pageReveal 0.9s ease forwards;
+}
+
+@keyframes pageReveal {
+    0% {
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* =========================
+   FLOATING BACKGROUND GLOW
+========================= */
+
+body::before {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,79,154,0.25), transparent 70%);
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: floatGlow 6s ease-in-out infinite;
+    z-index: 0;
+}
+
+@keyframes floatGlow {
+    0% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-20px); }
+    100% { transform: translateX(-50%) translateY(0); }
+}
+
+/* =========================
+   WRAPPER
+========================= */
+
+.login-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+/* =========================
+   LOGIN CARD (SKYLRK STYLE)
+========================= */
+
+.login-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    padding: 45px;
+    border-radius: 18px;
+    width: 320px;
+    box-shadow: 0 10px 30px rgba(255, 79, 154, 0.2);
+    text-align: center;
+    border: 1px solid rgba(255, 79, 154, 0.2);
+
+    opacity: 0;
+    transform: translateY(40px);
+    animation: cardEnter 1s ease 0.4s forwards;
+}
+
+@keyframes cardEnter {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   BRAND
+========================= */
+
+.brand h1 {
+    margin-bottom: 5px;
+    color: #ff4f9a;
+    letter-spacing: 2px;
+    animation: textGlow 1.2s ease-out;
+}
+
+@keyframes textGlow {
+    from {
+        opacity: 0;
+        letter-spacing: 12px;
+    }
+    to {
+        opacity: 1;
+        letter-spacing: 2px;
+    }
+}
+
+.heart {
+    display: inline-block;
+    animation: heartBeat 1.8s infinite;
+}
+
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+}
+
+.brand p {
+    font-size: 12px;
+    color: #6b3a4a;
+}
+
+/* =========================
+   INPUTS (STAGGER)
+========================= */
+
+.login-card input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid rgba(255, 79, 154, 0.3);
+    border-radius: 12px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.7);
+    color: #4a2b3a;
+
+    opacity: 0;
+    transform: translateY(10px);
+    animation: inputFade 0.6s ease forwards;
+}
+
+.login-card input:nth-of-type(1) {
+    animation-delay: 0.6s;
+}
+
+.login-card input:nth-of-type(2) {
+    animation-delay: 0.75s;
+}
+
+@keyframes inputFade {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* focus */
+.login-card input:focus {
+    border-color: #ff4f9a;
+    box-shadow: 0 0 12px rgba(255, 79, 154, 0.25);
+    transform: translateY(-2px);
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.login-card button {
+    width: 100%;
+    padding: 12px;
+    background: #ff4f9a;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+    transition: 0.3s ease;
+
+    opacity: 0;
+    transform: translateY(10px);
+    animation: buttonFade 0.6s ease 0.9s forwards;
+}
+
+@keyframes buttonFade {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-card button:hover {
+    background: #ff2f86;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 79, 154, 0.3);
+}
+
+/* =========================
+   ERROR
+========================= */
+
+.error {
+    background: rgba(255, 79, 154, 0.15);
+    color: #ff2f86;
+    padding: 8px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
+/* =========================
+   SWITCH LINK
+========================= */
+
+.switch {
+    margin-top: 15px;
+    font-size: 12px;
+}
+
+.switch a {
+    color: #ff4f9a;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.switch a:hover {
+    text-decoration: underline;
+}

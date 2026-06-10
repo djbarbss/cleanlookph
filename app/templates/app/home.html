@@ -1,0 +1,87 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'app/home.css' %}">
+</head>
+<script src="{% static 'js/home.js' %}"></script>
+<body>
+
+<!-- NAVBAR -->
+<header class="nav" style="position: fixed; z-index: 9999; background-color: #ffe4ec;">
+    <a class="logo" href="/">CLEANLOOK.PH 💗</a>
+
+    <nav class="nav-links">
+
+        {% if request.user.is_authenticated %}
+
+            <a href="/store/">Store</a>
+
+            <a href="/cart/">Cart</a>
+
+            <a class="user" href="/profile/">
+                Profile
+            </a>
+
+            <a href="/logout/">Logout</a>
+
+        {% else %}
+            <a href="/store/">Store</a>
+            <a href="/login/">Login</a>
+            <a href="/register/">Register</a>
+
+        {% endif %}
+
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>CLEANLOOK.PH 💗</h1>
+        <p>Premium essentials. Minimal design. Limited drops.</p>
+
+        <a href="/store/" class="btn">Enter Store</a>
+    </div>
+</section>
+
+<!-- COLLECTION PREVIEW -->
+<!-- COLLECTION PREVIEW -->
+<section class="collection">
+
+    <h2>Latest Drop</h2>
+
+    <div class="product-grid" id="latest-products">
+
+        <a href="/product/${product.id}/" class="product-link">
+            <div class="product-card">
+                <div class="img"></div>
+                <h3>Reverse Hoodie</h3>
+                <p>Inside-out construction</p>
+                <span>₱1,299</span>
+                <button>Add to Cart</button>
+            </div>
+        </a>
+        
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    background: #ffe4ec;
+    text-align: center;
+    padding: 10px 0;
+">
+    <p>© 2026 CLEANLOOK.PH Inspired UI</p>
+</footer>
+
+</body>
+</html>
