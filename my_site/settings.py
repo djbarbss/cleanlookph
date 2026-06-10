@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -41,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'authentication',
     'store',
-    'cart'
+    'cart',
+    'checkout'
 ]
 
 MIDDLEWARE = [
@@ -138,3 +140,8 @@ AUTH_USER_MODEL = "authentication.User"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+PAYMONGO_API_BASE = os.getenv("PAYMONGO_API_BASE", "https://api.paymongo.com/v1")
+PAYMONGO_SECRET_KEY = os.getenv("PAYMONGO_SECRET_KEY", "")
+PAYMONGO_SUCCESS_URL = os.getenv("PAYMONGO_SUCCESS_URL", "http://localhost:8000/order/payment/success/")
+PAYMONGO_CANCEL_URL = os.getenv("PAYMONGO_CANCEL_URL", "http://localhost:8000/order/payment/cancel/")

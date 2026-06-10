@@ -1,0 +1,91 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order #{{ order.id }}</title>
+    <link rel="stylesheet" href="{% static 'cart/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'checkout/checkout.css' %}">
+</head>
+<body>
+
+<header class="nav site-header">
+    <a class="logo" href="/">CLEANLOOK.PH 💗</a>
+    <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/store/">Store</a>
+        <a href="/cart/">Cart</a>
+        <a href="{% url 'orders' %}">Orders</a>
+        <a href="/profile/">Profile</a>
+        <a href="/logout/">Logout</a>
+    </nav>
+</header>
+
+<section class="cart-header">
+    <h1>Order #{{ order.id }}</h1>
+    <p>Full order details, item breakdown, and shipping summary.</p>
+</section>
+
+<section class="orders-layout">
+    <main class="orders-detail-panel">
+        <div class="panel-card">
+            <div class="detail-head">
+                <div>
+                    <h2>Order Details</h2>
+                    <p>{{ order.created_at|date:"F d, Y • h:i A" }}</p>
+                </div>
+                <span class="status-pill">{{ order.get_status_display }}</span>
+            </div>
+
+            <div class="order-meta-grid">
+                <div>
+                    <span class="meta-label">Payment Method</span>
+                    <strong>{{ order.get_payment_method_display }}</strong>
+                </div>
+                <div>
+                    <span class="meta-label">Payment Status</span>
+                    <strong>{{ order.get_payment_status_display }}</strong>
+                </div>
+                <div>
+                    <span class="meta-label">Shipping</span>
+                    <strong>₱{{ order.shipping_fee }}</strong>
+                </div>
+                <div>
+                    <span class="meta-label">Total</span>
+                    <strong>₱{{ order.total }}</strong>
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <h3>Customer Details</h3>
+                <p>{{ order.full_name }}</p>
+                <p>{{ order.email }}</p>
+                <p>{{ order.phone }}</p>
+                <p>{{ order.address }}, {{ order.city }}, {{ order.province }} {{ order.zip_code }}</p>
+                <p>{{ order.region }}</p>
+            </div>
+
+            <div class="detail-section">
+                <h3>Order Items</h3>
+                <div class="order-items-list">
+                    {% for item in order.items.all %}
+                        <div class="order-item-row">
+                            <div>
+                                <strong>{{ item.product_name }}</strong>
+                                <p>Qty: {{ item.quantity }}</p>
+                            </div>
+                            <span>₱{{ item.line_total }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="detail-actions">
+                <button class="checkout-btn" onclick="window.location.href='/orders/'">Back to Order List</a>
+            </div>
+        </div>
+    </main>
+</section>
+
+</body>
+</html>

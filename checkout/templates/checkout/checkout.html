@@ -1,0 +1,179 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+    <link rel="stylesheet" href="{% static 'cart/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'checkout/checkout.css' %}">
+</head>
+<script src="{% static 'js/checkout.js' %}"></script>
+<body>
+
+<!-- NAVBAR -->
+<header class="nav" style="position: fixed; z-index: 9999; background-color: #ffe4ec;">
+    <a class="logo" href="/">CLEANLOOK.PH 💗</a>
+    <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/store/">Store</a>
+        <a href="/cart/">Cart</a>
+        <a href="/orders/">Orders</a>
+        <a href="/profile/">Profile</a>
+        <a href="/logout/">Logout</a>
+    </nav>
+</header>
+
+<!-- PAGE TITLE -->
+<section class="cart-header">
+    <h1>Checkout</h1>
+    <p>Just a few more steps to complete your order.</p>
+</section>
+
+<!-- CHECKOUT LAYOUT -->
+<section class="cart-layout">
+
+    <!-- LEFT SIDE: FORM -->
+    <div class="checkout-form-wrapper">
+
+        <!-- CONTACT -->
+        <div class="form-section">
+            <h2 class="form-section-title">Contact Information</h2>
+
+            <div class="form-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" placeholder="e.g. Clean Girl">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="cleangirl@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" placeholder="+63 912 345 6789">
+                </div>
+            </div>
+        </div>
+
+        <!-- SHIPPING -->
+        <div class="form-section">
+            <h2 class="form-section-title">Shipping Address</h2>
+
+            <div class="form-group">
+                <label for="address">Street Address</label>
+                <input type="text" id="address" placeholder="House No., Street, Barangay">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="city">City / Municipality</label>
+                    <input type="text" id="city" placeholder="Cebu City">
+                </div>
+                <div class="form-group">
+                    <label for="province">Province</label>
+                    <input type="text" id="province" placeholder="Cebu">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="zip">ZIP Code</label>
+                    <input type="text" id="zip" placeholder="6000">
+                </div>
+                <div class="form-group">
+                    <label for="region">Region</label>
+                    <input type="text" id="region" placeholder="Central Visayas">
+                </div>
+            </div>
+        </div>
+
+        <!-- PAYMENT -->
+        <div class="form-section">
+            <h2 class="form-section-title">Payment Method</h2>
+
+            <div class="payment-options">
+                <label class="payment-option active" id="opt-cod">
+                    <input type="radio" name="payment" value="cod" checked>
+                    <span class="payment-icon">🏠</span>
+                    <span>Cash on Delivery</span>
+                </label>
+                <label class="payment-option" id="opt-gcash">
+                    <input type="radio" name="payment" value="gcash">
+                    <span class="payment-icon">📱</span>
+                    <span>GCash</span>
+                </label>
+                <label class="payment-option" id="opt-card">
+                    <input type="radio" name="payment" value="card">
+                    <span class="payment-icon">💳</span>
+                    <span>Credit / Debit Card</span>
+                </label>
+            </div>
+
+            <!-- GCASH FIELDS -->
+            <div id="payment-help" class="payment-fields" style="display:none;">
+                <p class="payment-note">
+                    GCash and card payments are completed securely on PayMongo after you place the order.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDE: ORDER SUMMARY -->
+    <div class="summary-card">
+
+        <h2>Order Summary</h2>
+
+        <div id="checkout-items" class="checkout-items-list"></div>
+
+        <hr class="summary-divider">
+
+        <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="subtotal">₱0</span>
+        </div>
+        <div class="summary-row">
+            <span>Shipping</span>
+            <span id="shipping">₱120</span>
+        </div>
+        <div class="summary-row total">
+            <span>Total</span>
+            <span id="total">₱120</span>
+        </div>
+
+        <button class="checkout-btn" onclick="placeOrder()">
+            Place Order 💗
+        </button>
+
+        <p class="back-link"><a href="/cart/">← Back to Cart</a></p>
+
+    </div>
+
+</section>
+
+<!-- SUCCESS MODAL -->
+<div id="order-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+        <div class="modal-icon">💗</div>
+        <h2>Order Placed!</h2>
+        <p>Thank you for your purchase. We'll send a confirmation to your email shortly.</p>
+        <button class="checkout-btn" onclick="window.location.href='/'">Back to Home</button>
+    </div>
+</div>
+
+<footer style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    background: #ffe4ec;
+    text-align: center;
+    padding: 10px 0;
+">
+    <p>© 2026 CLEANLOOK.PH Inspired UI</p>
+</footer>
+
+</body>
+</html>

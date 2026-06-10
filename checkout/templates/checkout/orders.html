@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Orders</title>
+    <link rel="stylesheet" href="{% static 'cart/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'checkout/checkout.css' %}">
+</head>
+<body>
+
+<header class="nav site-header">
+    <a class="logo" href="/">CLEANLOOK.PH 💗</a>
+    <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/store/">Store</a>
+        <a href="/cart/">Cart</a>
+        <a href="/profile/">Profile</a>
+        <a href="/logout/">Logout</a>
+    </nav>
+</header>
+
+<section class="cart-header">
+    <h1>Your Orders</h1>
+    <p>Browse your order history and view the full details for any order.</p>
+</section>
+
+<section class="orders-layout">
+    <div class="panel-card orders-list-card">
+        <div class="detail-head">
+            <div>
+                <h2>Order List</h2>
+                <p>Click any order to open the separate detail page.</p>
+            </div>
+        </div>
+
+        {% if orders %}
+            <div class="orders-list">
+                {% for order in orders %}
+                    <a class="order-list-item" href="{% url 'order_detail' order.id %}">
+                        <div>
+                            <strong>Order #{{ order.id }}</strong>
+                            <p>{{ order.full_name }}</p>
+                            <p>{{ order.created_at|date:"M d, Y • h:i A" }}</p>
+                        </div>
+                        <div class="order-list-summary">
+                            <span>₱{{ order.total }}</span>
+                            <p>{{ order.get_status_display }}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-state">You have no orders yet.</p>
+        {% endif %}
+    </div>
+</section>
+
+</body>
+</html>
