@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-wh&e%n+y^y)^%p&26i^f^mfn(eyg_doic1qda4uk3ij)r4=xjd'
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-development-only")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DJANGO_DEBUG", "true").lower() in {"1", "true", "yes"}
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [host for host in os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",") if host]
 
 
 # Application definition
@@ -124,11 +124,11 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+    ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
-        "rest_framework_simplejwt.authentication.JWTAuthentication"
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ]
 }
 
@@ -143,5 +143,5 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 PAYMONGO_API_BASE = os.getenv("PAYMONGO_API_BASE", "https://api.paymongo.com/v1")
 PAYMONGO_SECRET_KEY = os.getenv("PAYMONGO_SECRET_KEY", "")
-PAYMONGO_SUCCESS_URL = os.getenv("PAYMONGO_SUCCESS_URL", "http://localhost:8000/order/payment/success/")
-PAYMONGO_CANCEL_URL = os.getenv("PAYMONGO_CANCEL_URL", "http://localhost:8000/order/payment/cancel/")
+PAYMONGO_SUCCESS_URL = os.getenv("PAYMONGO_SUCCESS_URL", "http://localhost:8000/checkout/payment/success/")
+PAYMONGO_CANCEL_URL = os.getenv("PAYMONGO_CANCEL_URL", "http://localhost:8000/checkout/payment/cancel/")

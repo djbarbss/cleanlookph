@@ -40,17 +40,17 @@ function renderCart(cart) {
             <div class="cart-card">
 
                 <img class="product-image"
-                     src="${product.image || ''}">
+                     src="${escapeHtml(product.image || '')}">
 
                 <div class="product-info">
 
-                    <h3>${product.name}</h3>
+                    <h3>${escapeHtml(product.name)}</h3>
 
-                    <p>${product.description}</p>
+                    <p>${escapeHtml(product.description)}</p>
 
                     <div class="quantity">
 
-                        <button onclick="removeItem(${item.product}, ${item.quantity-1}, ${item.id})">-</button>
+                        <button onclick="removeItem(${item.quantity - 1}, ${item.id})">-</button>
 
                         <span>${item.quantity}</span>
 
@@ -63,7 +63,7 @@ function renderCart(cart) {
                 <div class="product-price">
                     ₱${itemTotal}
                 </div>
-                <button class="remove-btn" onclick="deleteItem(${item.product})">
+                <button class="remove-btn" onclick="deleteItem(${item.id})">
                     Remove
                 </button>
 
@@ -105,15 +105,15 @@ async function addItem(productId) {
 }
 
 
-async function removeItem(productId, quantity, item) {
+async function removeItem(quantity, itemId) {
 
     if (quantity < 1) {
 
-        deleteItem(productId);
+        deleteItem(itemId);
 
     } else {
 
-        await fetch(`/api/cart/${item}/`, {
+        await fetch(`/api/cart/${itemId}/`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -129,9 +129,9 @@ async function removeItem(productId, quantity, item) {
     }
 }
 
-async function deleteItem(productId) {
+async function deleteItem(itemId) {
 
-    await fetch(`/api/cart/${productId}/`, {
+    await fetch(`/api/cart/${itemId}/`, {
         method: "DELETE",
         credentials: "include",
         headers: {
@@ -160,4 +160,10 @@ function getCookie(name) {
     }
 
     return cookieValue;
+}
+
+function escapeHtml(value) {
+    const element = document.createElement("div");
+    element.textContent = value ?? "";
+    return element.innerHTML;
 }

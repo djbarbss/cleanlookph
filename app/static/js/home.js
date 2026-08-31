@@ -27,12 +27,12 @@ async function loadLatestProducts() {
                 <div class="product-card" data-product-id=${product.id}>
                     <a href="/product/${product.id}/" class="product-link">
                         <div>
-                            <img class="img" src="${product.image}" alt="${product.name}">
+                            <img class="img" src="${escapeHtml(product.image || '')}" alt="${escapeHtml(product.name)}">
                         </div>
 
-                        <h3>${product.name}</h3>
+                        <h3>${escapeHtml(product.name)}</h3>
 
-                        <p>${product.description}</p>
+                        <p>${escapeHtml(product.description)}</p>
 
                         <span>₱${product.price}</span>
                     </a>
@@ -149,4 +149,10 @@ function getCookie(name) {
     }
 
     return cookieValue;
+}
+
+function escapeHtml(value) {
+    const element = document.createElement("div");
+    element.textContent = value ?? "";
+    return element.innerHTML;
 }

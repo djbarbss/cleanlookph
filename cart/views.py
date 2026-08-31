@@ -11,6 +11,10 @@ def cart_view(request):
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from django.core.exceptions import ValidationError
+from django.shortcuts import get_object_or_404
+from store.models import Product
 
 from .models import Cart
 from .serializers import CartSerializer
@@ -28,30 +32,37 @@ class CartViewSet(ViewSet):
 
     def create(self, request):
         product_id = request.data.get("product_id")
-        print(product_id);
-        quantity = int(request.data.get("quantity", 1))
+        try:
+            quantity = int(request.data.get("quantity", 1))
+        except (TypeError, ValueError):
+            return Response({"error": "Quantity must be a whole number."}, status=status.HTTP_400_BAD_REQUEST)
 
-        CartService.add_to_cart(
-            request.user,
-            product_id,
-            quantity
-        )
+        try:
+            CartService.add_to_cart(request.user, product_id, quantity)
+        except (ValidationError, ValueError) as error:
+            return Response({"error": str(error)}, status=status.HTTP_400_BAD_REQUEST)
+        except Product.DoesNotExist:
+            return Response({"error": "Product not found."}, status=status.HTTP_404_NOT_FOUND)
 
         return Response({"message": "Added to cart"})
     
     def update(self, request, pk=None):
-        quantity = int(request.data.get("quantity", 1))
+        try:
+            quantity = int(request.data.get("quantity", 1))
+        except (TypeError, ValueError):
+            return Response({"error": "Quantity must be a whole number."}, status=status.HTTP_400_BAD_REQUEST)
 
         cart = CartService.get_or_create_cart(request.user)
 
         try:
             cart_item = cart.items.get(id=pk)
-            print(cart_item)
             # remove item if quantity <= 0
             if quantity <= 0:
                 cart_item.delete()
                 return Response({"message": "Item removed"})
 
+            if quantity > cart_item.product.stock:
+                return Response({"error": "The requested quantity is not available."}, status=status.HTTP_400_BAD_REQUEST)
             cart_item.quantity = quantity
             cart_item.save()
 
@@ -67,7 +78,9 @@ class CartViewSet(ViewSet):
             )
 
     def destroy(self, request, pk=None):
-        CartService.remove_item(request.user, pk)
+        cart = CartService.get_or_create_cart(request.user)
+        cart_item = get_object_or_404(cart.items, pk=pk)
+        cart_item.delete()
         return Response({"message": "Item removed"})
 
     def delete_all(self, request):

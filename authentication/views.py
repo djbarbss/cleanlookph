@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from rest_framework import viewsets
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 
 def login_view(request):
     if request.method == "POST":
@@ -35,11 +38,14 @@ def register_view(request):
         birthday = request.POST.get("birthday")
         password = request.POST.get("password")
 
-        user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password
-        )
+        try:
+            if not all([username, first_name, last_name, phone, email, birthday, password]):
+                raise ValidationError("All fields are required.")
+            validate_password(password)
+            user = User.objects.create_user(username=username, email=email, password=password)
+        except (ValidationError, IntegrityError) as error:
+            message = "; ".join(error.messages) if hasattr(error, "messages") else "That username or email is already in use."
+            return render(request, "authentication/register.html", {"error": message})
 
         user.first_name = first_name
         user.last_name = last_name

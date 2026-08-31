@@ -37,9 +37,9 @@ function renderCheckoutItems(cart) {
 
         container.innerHTML += `
             <div class="checkout-item">
-                <img src="${product.image || ''}" alt="${product.name}">
+                <img src="${escapeHtml(product.image || '')}" alt="${escapeHtml(product.name)}">
                 <div class="checkout-item-info">
-                    <p>${product.name}</p>
+                    <p>${escapeHtml(product.name)}</p>
                     <span>x${item.quantity}</span>
                 </div>
                 <div class="checkout-item-price">₱${itemTotal.toLocaleString()}</div>
@@ -188,4 +188,10 @@ async function loadCart() {
         console.error("Cart load error:", error);
     }
 
+}
+
+function escapeHtml(value) {
+    const element = document.createElement("div");
+    element.textContent = value ?? "";
+    return element.innerHTML;
 }

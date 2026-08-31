@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from rest_framework.permissions import AllowAny
 
 # Create your views here.
 def store_view(request):
@@ -12,7 +11,7 @@ def product_view(request, product_id):
 
 # views.py
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.filters import OrderingFilter
 
 from .models import Product
@@ -23,7 +22,11 @@ from rest_framework.response import Response
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [AllowAny]
+    def get_permissions(self):
+        # Browsing the catalogue is public; only staff can change it.
+        if self.action in {"list", "retrieve", "latest"}:
+            return [AllowAny()]
+        return [IsAdminUser()]
 
     def get_queryset(self):
         return Product.objects.all()

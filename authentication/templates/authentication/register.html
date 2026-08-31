@@ -13,6 +13,7 @@
 
     <form method="POST" class="login-card">
         {% csrf_token %}
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
 
         <!-- BRAND -->
         <div class="brand">

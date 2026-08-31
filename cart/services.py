@@ -1,5 +1,7 @@
 # cart/services.py
 
+from django.core.exceptions import ValidationError
+
 from .models import Cart, CartItem
 from store.models import Product
 
@@ -14,19 +16,20 @@ class CartService:
     @staticmethod
     def add_to_cart(user, product_id, quantity=1):
 
-        cart = CartService.get_or_create_cart(user)
+        if quantity < 1:
+            raise ValidationError("Quantity must be at least one.")
 
+        cart = CartService.get_or_create_cart(user)
         product = Product.objects.get(id=product_id)
 
-        item, created = CartItem.objects.get_or_create(
-            cart=cart,
-            product=product
-        )
-
-        if not created:
-            item.quantity += quantity
+        item = CartItem.objects.filter(cart=cart, product=product).first()
+        new_quantity = item.quantity + quantity if item else quantity
+        if new_quantity > product.stock:
+            raise ValidationError("The requested quantity is not available.")
+        if item is None:
+            item = CartItem(cart=cart, product=product, quantity=new_quantity)
         else:
-            item.quantity = quantity
+            item.quantity = new_quantity
 
         item.save()
 

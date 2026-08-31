@@ -129,6 +129,7 @@ class CheckoutAPIViewTests(APITestCase):
 		}
 		try:
 			self.client.post(reverse("checkout"), self._payload("gcash"), format="json")
+			self.client.force_login(self.user)
 			response = self.client.get(reverse("payment_success") + "?order_id=1")
 		finally:
 			PayMongoGateway.create_checkout_session = original_create

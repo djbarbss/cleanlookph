@@ -60,6 +60,8 @@ class Order(models.Model):
 	gateway_checkout_session_id = models.CharField(max_length=255, blank=True, default="", db_index=True)
 	gateway_checkout_url = models.URLField(blank=True, default="")
 	payment_details = models.JSONField(default=dict, blank=True)
+	# Stock is reserved when an order is created and released only once if it fails.
+	inventory_released = models.BooleanField(default=False)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 

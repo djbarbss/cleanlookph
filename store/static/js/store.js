@@ -19,13 +19,13 @@ async function loadProducts() {
                         <a href="/product/${product.id}/">
                             <img
                                 class="img"
-                                src="${product.image}"
-                                alt="${product.name}"
+                                src="${escapeHtml(product.image || '')}"
+                                alt="${escapeHtml(product.name)}"
                             >
 
-                            <h3>${product.name}</h3>
+                            <h3>${escapeHtml(product.name)}</h3>
 
-                            <p>${product.description}</p>
+                            <p>${escapeHtml(product.description)}</p>
 
                             <span>
                                 ₱${product.price}
@@ -156,4 +156,10 @@ function getCookie(name) {
     }
 
     return cookieValue;
+}
+
+function escapeHtml(value) {
+    const element = document.createElement("div");
+    element.textContent = value ?? "";
+    return element.innerHTML;
 }

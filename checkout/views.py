@@ -1,6 +1,7 @@
 from decimal import Decimal
 
 from django.db import transaction
+from django.db.models import F
 from django.http import Http404
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -12,10 +13,25 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from cart.services import CartService
+from store.models import Product
 
 from .models import Order, OrderItem
 from .gateway import PayMongoGateway, PaymentGatewayError
 from .serializers import CheckoutSerializer
+
+
+def release_inventory(order):
+    """Return a failed/cancelled order's reserved stock once."""
+    with transaction.atomic():
+        order = Order.objects.select_for_update().get(pk=order.pk)
+        if order.inventory_released:
+            return order
+        for item in order.items.select_related("product"):
+            if item.product_id:
+                Product.objects.filter(pk=item.product_id).update(stock=F("stock") + item.quantity)
+        order.inventory_released = True
+        order.save(update_fields=["inventory_released", "updated_at"])
+    return order
 
 @login_required
 def checkout_view(request):
@@ -75,6 +91,19 @@ class CheckoutAPIView(APIView):
         gateway = PayMongoGateway()
 
         with transaction.atomic():
+            product_ids = [item.product_id for item in cart_items]
+            products = {
+                product.id: product
+                for product in Product.objects.select_for_update().filter(id__in=product_ids)
+            }
+            for item in cart_items:
+                product = products.get(item.product_id)
+                if not product or product.stock < item.quantity:
+                    return Response(
+                        {"error": f"{item.product.name} no longer has enough stock."},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
             order = Order.objects.create(
                 user=request.user,
                 full_name=data["full_name"],
@@ -104,6 +133,7 @@ class CheckoutAPIView(APIView):
                     quantity=item.quantity,
                     line_total=line_total,
                 )
+                Product.objects.filter(pk=item.product_id).update(stock=F("stock") - item.quantity)
 
             if payment_method == Order.PaymentMethod.COD:
                 cart.items.all().delete()
@@ -129,6 +159,7 @@ class CheckoutAPIView(APIView):
                 "error": str(error),
             }
             order.save(update_fields=["payment_status", "status", "payment_details", "updated_at"])
+            release_inventory(order)
 
             return Response(
                 {"error": str(error)},
@@ -164,9 +195,10 @@ class CheckoutAPIView(APIView):
         )
 
 
+@login_required
 def payment_return_view(request, outcome):
     order_id = request.GET.get("order_id")
-    order = get_object_or_404(Order, pk=order_id) if order_id else None
+    order = get_object_or_404(request.user.orders, pk=order_id) if order_id else None
 
     if not order:
         raise Http404("Order not found")
@@ -179,16 +211,17 @@ def payment_return_view(request, outcome):
         except PaymentGatewayError:
             session = None
 
-        if session and session["payment_status"] == "paid":
+        if session and session["metadata"].get("order_id") == str(order.id) and session["payment_status"] == "paid":
             order.payment_status = Order.PaymentStatus.PAID
             order.status = Order.Status.PROCESSING
             order.save(update_fields=["payment_status", "status", "updated_at"])
             CartService.clear_cart(order.user)
 
-    elif outcome == "cancel":
+    elif outcome == "cancel" and order.payment_status != Order.PaymentStatus.PAID:
         order.payment_status = Order.PaymentStatus.FAILED
         order.status = Order.Status.CANCELLED
         order.save(update_fields=["payment_status", "status", "updated_at"])
+        release_inventory(order)
 
     return render(request, "checkout/payment_result.html", {
         "order": order,
